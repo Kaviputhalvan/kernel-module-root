@@ -40,6 +40,10 @@ This repository may contain examples and information related to:
 * Requires advanced technical knowledge.
 * Security implications must be carefully evaluated.
 
+## Developing
+
+**WARNING: This project is under development. Using these methods, especially in early stages, can brick your device. It is highly recommended to only attempt these procedures after a stable alpha version is released, and only on test devices. Proceed with extreme caution.**
+
 ## Contributing
 
 Contributions are welcome. However, please ensure that any contributions are:
