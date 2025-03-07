@@ -1,0 +1,18 @@
+menu "Android Kernel Module Configuration"
+
+config ARCH_TYPE
+    string "Target Architecture"
+    default "arm"
+    choice
+        prompt "Select Architecture"
+        default ARCH_ARM
+
+    config ARCH_ARM
+        bool "ARM (armv7l)"
+    config ARCH_ARM64
+        bool "ARM64 (aarch64)"
+    config ARCH_X86_64
+        bool "x86_64"
+    endchoice
+
+endmenu
