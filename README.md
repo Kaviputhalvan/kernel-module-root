@@ -44,8 +44,6 @@ This repository may contain examples and information related to:
 /kernel-module-root
 │── source_build/        # Kernel module source code
 │── prebuld/             # Precompiled modules for testing
-│── scripts/             # Helper scripts for building and loading modules
-│── docs/                # Documentation and guides
 │── LICENSE              # License file
 │── README.md            # Project description
 ```
