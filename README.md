@@ -86,5 +86,5 @@ Contributions are welcome! Please ensure that:
 **Stay tuned for updates and stable releases!** 🚀
 
 ## 📧 Contact
-- Gmail: `k.kavi.cpm100@gmail.com`
+- Gmail: [k.kavi.cpm100@gmail.com](k.kavi.cpm100@gmail.com)
 
