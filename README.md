@@ -3,6 +3,7 @@
 **Owner:** Kaviputhalvan K  
 **License:** Open to all contributors under [MIT License](LICENSE)  
 **Status:** 🚨 **Under Development – Do Not Use Until a Stable Version is Released!** 🚨  
+**Type:** Non-Profit Open Source Project
 
 This repository explores the use of kernel modules to gain root access on Android devices.
 
@@ -28,13 +29,26 @@ Kernel modules are pieces of code that can be loaded into the Android kernel to 
 - **Kernel Modules:** Loadable code that extends kernel functionality.
 - **Root Access:** Elevated privileges granting complete control over the system.
 - **User Groups:** Mechanisms for controlling permissions.
+- **Android Architecture:** Different CPU architectures require specific kernel modifications. **Android requires kernel modules to match its architecture version to function properly. Be cautious when using different versions.**
 
-## 🛠️ Methods
+## 🛠️ Rooting Methods
 This repository may contain examples and information related to:
 
 - **Temporary Rooting:** Loading modules for temporary privilege escalation.
 - **Persistent Rooting:** Modifying system files for permanent root access.
 - **User Group Manipulation:** Changing user groups to gain root-level permissions.
+- **Exploit-Based Rooting:** Using kernel vulnerabilities for root access.
+
+## 📂 Code Structure
+```
+/kernel-module-root
+│── source_build/        # Kernel module source code
+│── prebuld/             # Precompiled modules for testing
+│── scripts/             # Helper scripts for building and loading modules
+│── docs/                # Documentation and guides
+│── LICENSE              # License file
+│── README.md            # Project description
+```
 
 ## ⚠️ Important Considerations
 - This method is device and Android version specific.
