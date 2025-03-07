@@ -25,7 +25,7 @@ Kernel modules are pieces of code that can be loaded into the Android kernel to 
 - Modify system permissions and user groups.
 - Bypass security restrictions.
 
-This project focuses on creating `root.so`, a kernel module that grants root access to the `su` file by modifying `init.rc`. The modification involves injecting specific commands that adjust system permissions and user group assignments, ensuring root-level access is established. To prevent unintended issues, the module includes safeguards such as validation checks before execution and restoration procedures to revert changes if necessary. The module is designed to load at every startup, ensuring persistent root access. It can be patched and updated via TWRP or other bootable platforms for flashing onto the OS.
+This project focuses on creating `root.ko`, a kernel module that grants root access to the `su` file by modifying `init.rc`. The modification involves injecting specific commands that adjust system permissions and user group assignments, ensuring root-level access is established. To prevent unintended issues, the module includes safeguards such as validation checks before execution and restoration procedures to revert changes if necessary. The module is designed to load at every startup, ensuring persistent root access. It can be patched and updated via TWRP or other bootable platforms for flashing onto the OS.
 
 ## 🔑 Key Concepts
 - **Kernel Modules:** Loadable code that extends kernel functionality.
