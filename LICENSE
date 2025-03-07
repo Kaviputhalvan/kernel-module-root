@@ -1,57 +1,21 @@
-## Combined License Agreement
+MIT License
 
-**Author:** Kaviputhalvan  
-**Year:** 2024  
+Copyright (c) 2025 Kaviputhalvan
 
-This project is licensed under a combination of the following licenses. It is available for **public use**, but **no one is allowed to claim ownership or use it for personal/commercial gain**. Any modifications must comply with these terms and remain open-source.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-### 1. GNU General Public License v3.0 (GPLv3)
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-This software is distributed under the GPL v3. You may redistribute and/or modify it under the terms of this license as published by the Free Software Foundation.
-
-Full text: [https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)
-
-### 2. MIT License (Permissive Components)
-
-Some files in this project may be distributed under the MIT License to allow permissive use and modification, but not for proprietary ownership.
-
-**MIT License:**
-```
-Copyright (c) 2024 Kaviputhalvan
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use, copy, modify, merge, publish, distribute, and sublicense the Software, provided that it remains open-source and is not used for private ownership or commercial profit.
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```
-
-### 3. Apache License 2.0 (Patent Grant)
-
-To provide additional patent protections, parts of this software are licensed under Apache 2.0. However, proprietary ownership or monetization of the software is strictly prohibited.
-
-Full text: [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
-
-### 4. Additional Licenses for Specific Use Cases
-
-#### a) C Code Usage
-For low-level system programming, C code portions adhere to **GPL v3** for ensuring open-source collaboration. Proprietary modification is prohibited.
-
-#### b) Android Customization
-Any Android-specific modifications follow the **Apache License 2.0**, ensuring compatibility with the Android Open Source Project (AOSP). However, modifications must remain open-source.
-
-#### c) Root-Level Modifications
-For root-based system enhancements, the license remains **GPL v3** to protect user freedoms while modifying core system components.
-
----
-
-**Usage Guidelines:**
-- Core modules follow **GPL v3** (strong copyleft).
-- Standalone libraries or utilities may use **MIT** (permissive but non-proprietary).
-- Components requiring patent protection should adopt **Apache 2.0**.
-- Android-related modifications must comply with **Apache 2.0** but remain non-commercial.
-- Root-level changes remain under **GPL v3**.
-- **Commercial use, private ownership, or closed-source modifications are strictly forbidden.**
-
-For clarification, please refer to individual file headers.
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
