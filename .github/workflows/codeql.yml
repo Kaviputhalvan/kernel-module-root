@@ -1,15 +1,6 @@
-# For most projects, this workflow file will not need changing; you simply need
-# to commit it to your repository.
-#
-# You may wish to alter this file to override the set of languages analyzed,
-# or to provide custom queries or build logic.
-#
-# ******** NOTE ********
-# We have attempted to detect the languages in your repository. Please check
-# the `language` matrix defined below to confirm you have the correct set of
-# supported CodeQL languages.
-#
-name: "CodeQL Advanced"
+# CodeQL Advanced Workflow - Enhanced Debugging with Colors & Categories
+
+name: "CodeQL Advanced Debugging"
 
 on:
   push:
@@ -22,20 +13,10 @@ on:
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
-    # Runner size impacts CodeQL analysis time. To learn more, please see:
-    #   - https://gh.io/recommended-hardware-resources-for-running-codeql
-    #   - https://gh.io/supported-runners-and-hardware-resources
-    #   - https://gh.io/using-larger-runners (GitHub.com only)
-    # Consider using larger runners or machines with greater resources for possible analysis time improvements.
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
-      # required for all workflows
       security-events: write
-
-      # required to fetch internal or private CodeQL packs
       packages: read
-
-      # only required for workflows in private repositories
       actions: read
       contents: read
 
@@ -45,54 +26,98 @@ jobs:
         include:
         - language: c-cpp
           build-mode: autobuild
-        # CodeQL supports the following values keywords for 'language': 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
-        # Use `c-cpp` to analyze code written in C, C++ or both
-        # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
-        # Use 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
-        # To learn more about changing the languages that are analyzed or customizing the build mode for your analysis,
-        # see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning.
-        # If you are analyzing a compiled language, you can modify the 'build-mode' for that language to customize how
-        # your codebase is analyzed, see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/codeql-code-scanning-for-compiled-languages
+        - language: python
+          build-mode: autobuild
+        - language: java-kotlin
+          build-mode: autobuild
+        - language: javascript-typescript
+          build-mode: autobuild
+        - language: go
+          build-mode: autobuild
+        - language: ruby
+          build-mode: autobuild
+        - language: swift
+          build-mode: autobuild
+        - language: sql
+          build-mode: manual
+        - language: asm
+          build-mode: manual
+        - language: unknown
+          build-mode: skip
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Add any setup steps before running the `github/codeql-action/init` action.
-    # This includes steps like installing compilers or runtimes (`actions/setup-node`
-    # or others). This is typically only required for manual builds.
-    # - name: Setup runtime (example)
-    #   uses: actions/setup-example@v1
+    - name: Detect File Extensions
+      run: |
+        echo -e "\033[1;36m🔍 Scanning files for supported languages...\033[0m"
+        for file in $(find . -type f); do
+          ext="${file##*.}"
+          case "$ext" in
+            c|cpp|h|py|java|kt|js|ts|go|rb|swift|sql|asm) 
+              echo -e "\033[1;32m✅ Detected supported file: $file\033[0m" ;;
+            *) 
+              echo -e "\033[1;33m⚠️ Warning: Unknown file extension '$ext' in file '$file'\033[0m" ;;
+          esac
+        done
 
-    # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
+      if: matrix.build-mode != 'skip'
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-        # If you wish to specify custom queries, you can do so here or in a config file.
-        # By default, queries listed here will override any specified in a config file.
-        # Prefix the list here with "+" to use these queries and those in the config file.
 
-        # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
-        # queries: security-extended,security-and-quality
-
-    # If the analyze step fails for one of the languages you are analyzing with
-    # "We were unable to automatically build your code", modify the matrix above
-    # to set the build mode to "manual" for that language. Then modify this step
-    # to build your code.
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-    - if: matrix.build-mode == 'manual'
-      shell: bash
+    - name: Run CodeQL Analysis with Full Debugging
+      if: matrix.build-mode != 'skip'
       run: |
-        echo 'If you are using a "manual" build mode for one or more of the' \
-          'languages you are analyzing, replace this with the commands to build' \
-          'your code, for example:'
-        echo '  make bootstrap'
-        echo '  make release'
-        exit 1
+        echo -e "\033[1;34m🚀 Running CodeQL Analysis for ${{ matrix.language }}...\033[0m"
+        gh codeql database analyze --format=sarif-latest --output=codeql-results.sarif \
+        --verbosity=debug --threads=2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:${{matrix.language}}"
+    - name: Display Errors with Categorized Output
+      if: always()
+      run: |
+        echo -e "\033[1;35m📜 Displaying CodeQL results...\033[0m"
+        if [[ -f "codeql-results.sarif" ]]; then
+          while IFS= read -r line; do
+            file=$(echo "$line" | jq -r '.file')
+            line_number=$(echo "$line" | jq -r '.line')
+            message=$(echo "$line" | jq -r '.message')
+            error_type=$(echo "$line" | jq -r '.errorType')
+            severity=$(echo "$line" | jq -r '.severity')
+
+            if [[ "$severity" == "error" ]]; then
+              echo -e "\033[1;31m🟥 FULL ERROR: $message (File: $file, Line: $line_number, Type: $error_type)\033[0m"
+            elif [[ "$severity" == "warning" ]]; then
+              echo -e "\033[1;33m🟨 WARNING: $message (File: $file, Line: $line_number, Type: $error_type)\033[0m"
+            elif [[ "$severity" == "note" ]]; then
+              echo -e "\033[1;34m🟦 GOOD PRACTICE: $message (File: $file, Line: $line_number, Type: $error_type)\033[0m"
+            else
+              echo -e "\033[1;37mℹ️  INFO: $message (File: $file, Line: $line_number, Type: $error_type)\033[0m"
+            fi
+          done < <(jq -c '.runs[].results[] | { file: .locations[0].physicalLocation.artifactLocation.uri, 
+            line: .locations[0].physicalLocation.region.startLine, 
+            message: .message.text, 
+            errorType: .rule.id, 
+            severity: .level }' codeql-results.sarif)
+        else
+          echo -e "\033[1;33m⚠️ No SARIF file found. No errors reported.\033[0m"
+        fi
+
+    - name: Fail Build on Critical Errors
+      if: always()
+      run: |
+        echo -e "\033[1;31m🚨 Checking for critical errors...\033[0m"
+        if [[ -f "codeql-results.sarif" ]]; then
+          error_count=$(jq '[.runs[].results[] | select(.level=="error")] | length' codeql-results.sarif)
+          if (( error_count > 0 )); then
+            echo -e "\033[1;31m❌ $error_count critical errors found! Build failed.\033[0m"
+            exit 1
+          else
+            echo -e "\033[1;32m✅ No critical errors detected. Build succeeded!\033[0m"
+          fi
+        fi
