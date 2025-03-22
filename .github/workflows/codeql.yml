@@ -1,5 +1,3 @@
-# CodeQL Advanced Workflow - Enhanced Debugging with Colors & Categories
-
 name: "CodeQL Advanced Debugging"
 
 on:
@@ -49,15 +47,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Detect File Extensions
+    - name: Detect File Extensions in All Folders
       run: |
-        echo -e "\033[1;36m🔍 Scanning files for supported languages...\033[0m"
-        for file in $(find . -type f); do
+        echo -e "\033[1;36m🔍 Scanning files (including hidden folders)...\033[0m"
+        
+        # Recursively find all files including hidden ones
+        find . -type f 2>/dev/null | while read file; do
           ext="${file##*.}"
+          size=$(wc -c < "$file")
+          
+          # Check if the file is empty
+          if [[ "$size" -eq 0 ]]; then
+            echo -e "\033[1;33m⚠️ Skipping empty file: $file\033[0m"
+            continue
+          fi
+
+          # Check if the extension is supported
           case "$ext" in
             c|cpp|h|py|java|kt|js|ts|go|rb|swift|sql|asm) 
               echo -e "\033[1;32m✅ Detected supported file: $file\033[0m" ;;
-            *) 
+            *)
               echo -e "\033[1;33m⚠️ Warning: Unknown file extension '$ext' in file '$file'\033[0m" ;;
           esac
         done
