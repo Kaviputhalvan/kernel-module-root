@@ -1,7 +1,7 @@
 # Kernel Module Root
 
 **Owner:** Kaviputhalvan K  
-**License:** Open to all contributors under [MIT License](LICENSE)  
+**License:** Open to all contributors under [License](LICENSE)  
 **Status:** 🚨 **Under Development – Do Not Use Until a Stable Version is Released!** 🚨  
 **Type:** Non-Profit Open Source Project
 
