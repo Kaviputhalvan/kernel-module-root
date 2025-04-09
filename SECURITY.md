@@ -1,21 +1,79 @@
-# Security Policy
+# 🔐 Security Policy
 
-## Supported Versions
+## 📣 Reporting a Vulnerability
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+If you discover a security vulnerability in `kernel-module-root`, **please report it responsibly** to protect the safety of others.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+### 📧 Contact:
+- **Email**: [k.kavi.cpm100@gmail.com](mailto:k.kavi.cpm100@gmail.com)
+- **Subject**: `Security Vulnerability Report - kernel-module-root`
 
-## Reporting a Vulnerability
+Please **include**:
+- A clear description of the issue.
+- Steps to reproduce it.
+- Potential impact.
+- Suggested fix, if available.
 
-Use this section to tell people how to report a vulnerability.
+**Do not disclose vulnerabilities publicly** until they are reviewed and resolved.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+---
+
+## ✅ Supported Versions
+
+| Version     | Status           |
+|-------------|------------------|
+| ver-0       | ❌ Not Usable     |
+| Future ≥1.0 | 🔒 Security updates planned |
+
+> ⚠️ Currently in development phase. Security patches will begin after a stable release.
+
+---
+
+## 🛡️ Project Security Goals
+
+This repository involves **kernel-level privilege escalation**, which by nature, carries **critical security implications**. The goal is to ensure:
+
+- Secure and ethical research usage.
+- Prevention of unauthorized/malicious access.
+- Transparency and traceability in modifications.
+- Protection of devices from permanent damage.
+
+---
+
+## 🔍 Security Considerations
+
+Due to the nature of this project:
+
+- Use **only on test devices**.
+- Avoid using prebuilt `.ko` files from unverified sources.
+- Validate kernel compatibility before loading modules.
+- Always inspect the source before compiling or flashing.
+- Keep backups before any modification.
+
+---
+
+## 🔄 Recovery Guidelines
+
+In case of accidental bricking or instability:
+- Use **Fastboot**, **TWRP**, or **ADB** recovery.
+- Flash stock ROMs using tools like:
+  - **Odin** (Samsung)
+  - **SP Flash Tool** (MediaTek)
+  - Manufacturer factory images
+
+---
+
+## 🤝 Acknowledgments
+
+We appreciate ethical security researchers who contribute to:
+- Identifying vulnerabilities.
+- Suggesting safe implementation practices.
+- Helping make this tool safe for educational use.
+
+---
+
+## 📚 References
+
+- [Linux Kernel Module Documentation](https://www.kernel.org/doc/html/latest/)
+- [Android Security Docs](https://source.android.com/security)
+- [XDA Developers – Rooting Guide](https://www.xda-developers.com/root/)
