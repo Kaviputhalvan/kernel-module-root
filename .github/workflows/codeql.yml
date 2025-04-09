@@ -1,0 +1,96 @@
+name: "CodeQL Analysis with Fix Suggestions"
+
+on:
+  push:
+    branches: [ "ver-0(un-useable)" ]
+  pull_request:
+    branches: [ "ver-0(un-useable)" ]
+  schedule:
+    - cron: '44 15 * * 0'
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ matrix.language == 'swift' && 'macos-latest' || 'ubuntu-latest' }}
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: c-cpp
+            build-mode: autobuild
+          - language: python
+            build-mode: autobuild
+          - language: java-kotlin
+            build-mode: autobuild
+          - language: javascript-typescript
+            build-mode: autobuild
+          - language: go
+            build-mode: autobuild
+          - language: ruby
+            build-mode: autobuild
+          - language: swift
+            build-mode: autobuild
+          - language: sql
+            build-mode: manual
+          - language: asm
+            build-mode: manual
+          - language: unknown
+            build-mode: skip
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        if: matrix.build-mode != 'skip'
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - name: Perform CodeQL Analysis
+        if: matrix.build-mode != 'skip'
+        uses: github/codeql-action/analyze@v3
+        with:
+          output: results.sarif
+
+      - name: Suggest Fixes for Known Issues
+        if: always()
+        run: |
+          echo "Analyzing CodeQL results for known issues..."
+          if [[ -f "results.sarif" ]]; then
+            jq -c '.runs[].results[] | { ruleId: .ruleId, message: .message.text, location: .locations[0].physicalLocation.artifactLocation.uri, line: .locations[0].physicalLocation.region.startLine }' results.sarif | while read -r result; do
+              ruleId=$(echo "$result" | jq -r '.ruleId')
+              message=$(echo "$result" | jq -r '.message')
+              location=$(echo "$result" | jq -r '.location')
+              line=$(echo "$result" | jq -r '.line')
+              
+              echo "Detected issue: $message"
+              echo "Location: $location at line $line"
+              echo "Rule ID: $ruleId"
+
+              case "$ruleId" in
+                "py/unused-import")
+                  echo "Suggestion: Remove the unused import statement at line $line in $location."
+                  ;;
+                "js/xss")
+                  echo "Suggestion: Properly escape user input before rendering to prevent XSS vulnerabilities."
+                  ;;
+                # Add more cases for other rule IDs as needed
+                *)
+                  echo "No automated fix available for this issue."
+                  ;;
+              esac
+              echo ""
+            done
+          else
+            echo "No CodeQL results file found."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
